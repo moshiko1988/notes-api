@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170620174436) do
+ActiveRecord::Schema.define(version: 20170620184510) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,8 +23,18 @@ ActiveRecord::Schema.define(version: 20170620174436) do
     t.index ["user_id"], name: "index_examples_on_user_id", using: :btree
   end
 
+  create_table "lists", force: :cascade do |t|
+    t.string   "name",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "user_id"
+    t.integer  "task_id"
+    t.index ["task_id"], name: "index_lists_on_task_id", using: :btree
+    t.index ["user_id"], name: "index_lists_on_user_id", using: :btree
+  end
+
   create_table "tasks", force: :cascade do |t|
-    t.string   "name"
+    t.string   "name",       null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "user_id"
@@ -42,5 +52,7 @@ ActiveRecord::Schema.define(version: 20170620174436) do
   end
 
   add_foreign_key "examples", "users"
+  add_foreign_key "lists", "tasks"
+  add_foreign_key "lists", "users"
   add_foreign_key "tasks", "users"
 end
