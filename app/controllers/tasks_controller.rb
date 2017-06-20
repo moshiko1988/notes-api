@@ -3,7 +3,7 @@ class TasksController < ProtectedController
 
   # GET /tasks
   def index
-    @tasks = Task.all
+    @lists = current_user.tasks.order(:id)
 
     render json: @tasks
   end
